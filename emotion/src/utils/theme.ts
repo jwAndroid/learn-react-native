@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { Theme } from '@emotion/react';
 
 export const font = {
@@ -10,8 +11,10 @@ export const icon = {
 
 export const AppTheme: Theme = {
   font: {
-    YoonGothicBold: 'YoonGothicBold',
-    YoonGothicBoldIos: 'YDIYGO330',
+    YoonGothicBold: Platform.select({
+      android: 'YoonGothicBold',
+      ios: 'YDIYGO330',
+    }),
   },
   color: {
     white: '#fff',
