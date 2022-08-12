@@ -33,5 +33,7 @@ module.exports = {
     'no-undef': 'off',
     'import/no-unresolved': 'off',
     'import/extensions': 'off',
+    'no-console': 'off',
+    'global-require': 'off',
   },
 };

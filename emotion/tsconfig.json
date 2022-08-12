@@ -1,8 +1,7 @@
-// prettier-ignore
 {
-  "extends": "@tsconfig/react-native/tsconfig.json",     /* Recommended React Native TSConfig base */
+  "extends": "@tsconfig/react-native/tsconfig.json" /* Recommended React Native TSConfig base */,
   "compilerOptions": {
     "skipLibCheck": true,
-    "strict": true                                /* Skip type checking all .d.ts files. */
+    "strict": true
   }
 }
