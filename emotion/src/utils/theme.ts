@@ -11,6 +11,7 @@ export const icon = {
 export const AppTheme: Theme = {
   font: {
     YoonGothicBold: 'YoonGothicBold',
+    YoonGothicBoldIos: 'YDIYGO330',
   },
   color: {
     white: '#fff',

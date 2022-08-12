@@ -10,6 +10,7 @@ declare module '@emotion/react' {
   export interface Theme {
     font: {
       YoonGothicBold: string;
+      YoonGothicBoldIos: string;
     };
     color: {
       white: string;
