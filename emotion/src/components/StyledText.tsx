@@ -2,9 +2,8 @@ import React, { memo } from 'react';
 import styled from '@emotion/native';
 
 const FondlyText = styled.Text(({ theme }) => ({
-  fontSize: 40,
+  fontSize: 50,
   color: theme.color.black,
-  fontFamily: theme.font.YoonGothicBold,
 }));
 
 interface IStyledText {

@@ -13,7 +13,7 @@ export const AppTheme: Theme = {
   font: {
     YoonGothicBold: Platform.select({
       android: 'YoonGothicBold',
-      ios: 'YDIYGO330',
+      ios: 'YDIYGO330' ?? '',
     }),
   },
   color: {
