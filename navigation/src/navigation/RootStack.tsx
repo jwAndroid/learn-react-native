@@ -6,9 +6,11 @@ import {
 } from '@react-navigation/native-stack';
 
 import MainTab, { MainTabNavigationScreenParams } from './MainTab';
+import { DetailScreen } from './screens';
 
 export type RootStackParamList = {
   MainTab: MainTabNavigationScreenParams;
+  Detail: { id: number };
 };
 
 export type RootStackNavigationProp =
@@ -28,6 +30,12 @@ function RootStack() {
   return (
     <Navigator initialRouteName="MainTab">
       <Screen name="MainTab" component={MainTab} options={options} />
+
+      <Screen
+        name="Detail"
+        component={DetailScreen}
+        options={options}
+      />
     </Navigator>
   );
 }
