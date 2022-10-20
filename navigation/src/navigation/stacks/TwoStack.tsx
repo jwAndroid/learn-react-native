@@ -4,11 +4,10 @@ import {
   NativeStackNavigationOptions,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
-
-import MainTab, { MainTabNavigationScreenParams } from './MainTab';
+import { TwoScreen } from '../screens';
 
 export type RootStackParamList = {
-  MainTab: MainTabNavigationScreenParams;
+  Two: undefined;
 };
 
 export type RootStackNavigationProp =
@@ -17,7 +16,7 @@ export type RootStackNavigationProp =
 const { Navigator, Screen } =
   createNativeStackNavigator<RootStackParamList>();
 
-function RootStack() {
+function TwoStack() {
   const options = useMemo<NativeStackNavigationOptions>(
     () => ({
       headerShown: false,
@@ -26,10 +25,10 @@ function RootStack() {
   );
 
   return (
-    <Navigator initialRouteName="MainTab">
-      <Screen name="MainTab" component={MainTab} options={options} />
+    <Navigator initialRouteName="Two">
+      <Screen name="Two" component={TwoScreen} options={options} />
     </Navigator>
   );
 }
 
-export default memo(RootStack);
+export default memo(TwoStack);

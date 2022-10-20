@@ -1,5 +1,6 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import {
+  BottomTabNavigationOptions,
   BottomTabNavigationProp,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
@@ -9,12 +10,12 @@ import {
 } from '@react-navigation/native';
 
 import { RootStackNavigationProp } from './RootStack';
-import { OneScreen, ThreeScreen, TwoScreen } from './screens';
+import { OneStack, ThreeStack, TwoStack } from './stacks';
 
 type MainTabParamList = {
-  One: undefined;
-  Two: undefined;
-  Three: undefined;
+  OneStack: undefined;
+  TwoStack: undefined;
+  ThreeStack: undefined;
 };
 
 export type MainTabNavigationProp = CompositeNavigationProp<
@@ -29,12 +30,30 @@ const { Navigator, Screen } =
   createBottomTabNavigator<MainTabParamList>();
 
 function MainTab() {
+  const options = useMemo<BottomTabNavigationOptions>(
+    () => ({
+      headerShown: false,
+    }),
+    [],
+  );
   return (
-    <Navigator initialRouteName="One">
-      <Screen name="One" component={OneScreen} />
+    <Navigator initialRouteName="OneStack">
+      <Screen
+        name="OneStack"
+        component={OneStack}
+        options={options}
+      />
 
-      <Screen name="Two" component={TwoScreen} />
-      <Screen name="Three" component={ThreeScreen} />
+      <Screen
+        name="TwoStack"
+        component={TwoStack}
+        options={options}
+      />
+      <Screen
+        name="ThreeStack"
+        component={ThreeStack}
+        options={options}
+      />
     </Navigator>
   );
 }

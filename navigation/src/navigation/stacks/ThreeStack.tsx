@@ -4,11 +4,10 @@ import {
   NativeStackNavigationOptions,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
-
-import MainTab, { MainTabNavigationScreenParams } from './MainTab';
+import { ThreeScreen } from '../screens';
 
 export type RootStackParamList = {
-  MainTab: MainTabNavigationScreenParams;
+  Three: undefined;
 };
 
 export type RootStackNavigationProp =
@@ -17,7 +16,7 @@ export type RootStackNavigationProp =
 const { Navigator, Screen } =
   createNativeStackNavigator<RootStackParamList>();
 
-function RootStack() {
+function ThreeStack() {
   const options = useMemo<NativeStackNavigationOptions>(
     () => ({
       headerShown: false,
@@ -26,10 +25,14 @@ function RootStack() {
   );
 
   return (
-    <Navigator initialRouteName="MainTab">
-      <Screen name="MainTab" component={MainTab} options={options} />
+    <Navigator initialRouteName="Three">
+      <Screen
+        name="Three"
+        component={ThreeScreen}
+        options={options}
+      />
     </Navigator>
   );
 }
 
-export default memo(RootStack);
+export default memo(ThreeStack);
