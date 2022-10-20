@@ -5,7 +5,7 @@
 import React, { memo } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-import RootStack from './src/screens/RootStack';
+import RootStack from './src/navigation/RootStack';
 
 function App() {
   return (

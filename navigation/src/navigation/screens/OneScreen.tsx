@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native';
 import React, { memo } from 'react';
 
-function RootStack() {
+function OneScreen() {
   return (
     <View>
-      <Text>RootStack</Text>
+      <Text>OneScreen</Text>
     </View>
   );
 }
 
-export default memo(RootStack);
+export default memo(OneScreen);
