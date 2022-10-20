@@ -20,19 +20,16 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', '@typescript-eslint'],
-  overrides: [
-    {
-      files: ['*.ts', '*.tsx'],
-      rules: {
-        'no-unused-vars': 'off',
-        '@typescript-eslint/no-unused-vars': ['error'],
-        '@typescript-eslint/no-shadow': ['error'],
-        'no-shadow': 'off',
-        'no-undef': 'off',
-        'react/jsx-filename-extension': 'off',
-        'import/no-unresolved': 'off',
-        'import/extensions': 'off',
-      },
-    },
-  ],
+  rules: {
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
+    'react/jsx-filename-extension': [
+      1,
+      { extensions: ['.ts', 'tsx', 'js'] },
+    ],
+    'react/jsx-no-undef': 'off',
+    'no-undef': 'off',
+    'import/no-unresolved': 'off',
+    'import/extensions': 'off',
+  },
 };

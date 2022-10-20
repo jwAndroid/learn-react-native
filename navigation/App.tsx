@@ -2,16 +2,16 @@
  * @format
  */
 
-import { View, Text } from 'react-native';
 import React, { memo } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+
+import RootStack from './src/screens/RootStack';
 
 function App() {
-  const a = '';
-
   return (
-    <View>
-      <Text>App</Text>
-    </View>
+    <NavigationContainer>
+      <RootStack />
+    </NavigationContainer>
   );
 }
 
