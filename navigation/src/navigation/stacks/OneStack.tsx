@@ -5,17 +5,18 @@ import {
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
 
-import { OneScreen } from '../screens';
+import { OneScreen, OneTestScreen } from '../screens';
 
-export type RootStackParamList = {
+export type OneStackParamList = {
   One: undefined;
+  OneTest: undefined;
 };
 
-export type RootStackNavigationProp =
-  NativeStackNavigationProp<RootStackParamList>;
+export type OneStackNavigationProp =
+  NativeStackNavigationProp<OneStackParamList>;
 
 const { Navigator, Screen } =
-  createNativeStackNavigator<RootStackParamList>();
+  createNativeStackNavigator<OneStackParamList>();
 
 function OneStack() {
   const options = useMemo<NativeStackNavigationOptions>(
@@ -28,6 +29,12 @@ function OneStack() {
   return (
     <Navigator initialRouteName="One">
       <Screen name="One" component={OneScreen} options={options} />
+
+      <Screen
+        name="OneTest"
+        component={OneTestScreen}
+        options={options}
+      />
     </Navigator>
   );
 }

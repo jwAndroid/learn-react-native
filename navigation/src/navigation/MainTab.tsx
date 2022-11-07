@@ -1,13 +1,13 @@
 import React, { memo, useMemo } from 'react';
 import {
+  CompositeNavigationProp,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+import {
   BottomTabNavigationOptions,
   BottomTabNavigationProp,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import {
-  CompositeNavigationProp,
-  NavigatorScreenParams,
-} from '@react-navigation/native';
 
 import { RootStackNavigationProp } from './RootStack';
 import { OneStack, ThreeStack, TwoStack } from './stacks';
@@ -36,6 +36,7 @@ function MainTab() {
     }),
     [],
   );
+
   return (
     <Navigator initialRouteName="OneStack">
       <Screen
