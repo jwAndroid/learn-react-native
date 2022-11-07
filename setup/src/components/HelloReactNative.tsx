@@ -1,10 +1,10 @@
 import React, { memo, useCallback, useState } from 'react';
 import styled from '@emotion/native';
+import PropsText from './PropsText';
 
 interface IContainer {
   state: boolean;
 }
-
 const Container = styled.View<IContainer>(({ theme, state }) => ({
   flex: 1,
   justifyContent: 'center',
@@ -30,6 +30,8 @@ function HelloReactNative() {
       <StyledText onPress={onPress} state={state}>
         {state ? 'Hello! React-Native!' : 'Wellcome! React-Native!'}
       </StyledText>
+
+      <PropsText>react-native</PropsText>
     </Container>
   );
 }
