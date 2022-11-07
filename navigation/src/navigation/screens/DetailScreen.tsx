@@ -20,6 +20,7 @@ function DetailScreen() {
 
   const navigation = useNavigation<RootStackNavigationProp>();
 
+  // 이렇게 다른 스크린 또는 스택에서 초기 탭으로 이동할수 있다.
   const tab = useNavigation<MainTabNavigationProp>();
 
   const onPress = useCallback(() => {

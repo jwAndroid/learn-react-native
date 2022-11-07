@@ -18,6 +18,10 @@ type MainTabParamList = {
   ThreeStack: undefined;
 };
 
+// CompositeNavigationProp 를 사용해서 navigate 를 하면 따로따로 흩어져있는 stack 을 한데 모아서
+// 처리할수있다. 실제로 메인탭네비게이션프롭을 사용하여 네비게이트 해보면 rootstack 에서 정의한것과
+// maintab 에서 정의한것들로 이동이 가능하다.
+
 export type MainTabNavigationProp = CompositeNavigationProp<
   RootStackNavigationProp,
   BottomTabNavigationProp<MainTabParamList>
