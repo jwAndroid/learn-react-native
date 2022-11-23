@@ -2,15 +2,16 @@
  * @format
  */
 
+import {NavigationContainer} from '@react-navigation/native';
 import React, {memo} from 'react';
-import {SafeAreaView, View} from 'react-native';
+
 import MainScreen from './src/MainScreen';
 
 const App = () => {
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <NavigationContainer>
       <MainScreen />
-    </SafeAreaView>
+    </NavigationContainer>
   );
 };
 
