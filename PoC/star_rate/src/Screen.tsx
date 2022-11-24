@@ -1,8 +1,7 @@
-import React, {useCallback} from 'react';
+import React from 'react';
+import {View} from 'react-native';
 import {useTheme} from '@emotion/react';
 import styled from '@emotion/native';
-import {Rating} from 'react-native-ratings';
-import {View} from 'react-native';
 
 const Container = styled.View(() => ({
   flex: 1,
@@ -17,7 +16,7 @@ const Icon = styled.Image(() => ({
 }));
 
 const FullIcon = styled.Image(() => ({
-  width: 19.4,
+  width: 19.3,
   height: 20,
 }));
 
@@ -49,12 +48,11 @@ const Screen = () => {
           flexDirection: 'row',
           alignItems: 'center',
           position: 'relative',
-          left: 1,
+          left: 1.3,
           top: 0,
           bottom: 0,
+          right: 0,
         }}>
-        <FullIcon source={theme.icon.star} />
-
         <FullIcon source={theme.icon.star} />
 
         <FullIcon source={theme.icon.star} />
