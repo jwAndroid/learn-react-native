@@ -2,51 +2,143 @@
  * @format
  */
 
-import React from 'react';
-import {SafeAreaView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import appleAuth, {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
 
-const App = () => {
-  // useEffect(() => {
-  //   // onCredentialRevoked returns a function that will remove the event listener. useEffect will call this function when the component unmounts
-  //   return appleAuth.onCredentialRevoked(async () => {
-  //     console.warn(
-  //       'If this function executes, User Credentials have been Revoked',
-  //     );
-  //   });
-  // }, []);
+let user = null;
 
-  const onAppleButtonPress = async () => {
+async function fetchAndUpdateCredentialState(
+  updateCredentialStateForUser: any,
+) {
+  if (user === null) {
+    updateCredentialStateForUser('N/A');
+  } else {
+    const credentialState = await appleAuth.getCredentialStateForUser(user);
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+      updateCredentialStateForUser('AUTHORIZED');
+    } else {
+      updateCredentialStateForUser(credentialState);
+    }
+  }
+}
+
+async function onAppleButtonPress(updateCredentialStateForUser: any) {
+  console.warn('Beginning Apple Authentication');
+
+  // start a login request
+  try {
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
-
-      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
     });
 
-    const credentialState = await appleAuth.getCredentialStateForUser(
-      appleAuthRequestResponse.user,
+    console.log('appleAuthRequestResponse', appleAuthRequestResponse);
+
+    const {
+      user: newUser,
+      email,
+      nonce,
+      identityToken,
+      realUserStatus,
+    } = appleAuthRequestResponse;
+
+    user = newUser;
+
+    fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+      updateCredentialStateForUser(`Error: ${error.code}`),
     );
 
-    if (credentialState === appleAuth.State.AUTHORIZED) {
-      console.log(JSON.stringify(credentialState, null, 5));
+    if (identityToken) {
+      // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
+      console.log(nonce, identityToken);
+    } else {
+      // no token - failed sign-in?
     }
-  };
+
+    if (realUserStatus === appleAuth.UserStatus.LIKELY_REAL) {
+      console.log("I'm a real person!");
+    }
+
+    console.warn(`Apple Authentication Completed, ${user}, ${email}`);
+  } catch (error) {
+    if (error.code === appleAuth.Error.CANCELED) {
+      console.warn('User canceled Apple Sign in.');
+    } else {
+      console.error(error);
+    }
+  }
+}
+
+const App = () => {
+  const [credentialStateForUser, updateCredentialStateForUser] = useState(-1);
+
+  useEffect(() => {
+    if (!appleAuth.isSupported) {
+      return;
+    }
+
+    return appleAuth.onCredentialRevoked(async () => {
+      console.warn('Credential Revoked');
+
+      fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+        updateCredentialStateForUser(`Error: ${error.code}`),
+      );
+    });
+  }, []);
+
+  if (!appleAuth.isSupported) {
+    return (
+      <View style={[styles.container, styles.horizontal]}>
+        <Text>Apple Authentication is not supported on this device.</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView>
-      <AppleButton
-        buttonStyle={AppleButton.Style.WHITE}
-        buttonType={AppleButton.Type.SIGN_IN}
-        style={{
-          width: 160,
-          height: 70,
-        }}
-        onPress={() => onAppleButtonPress()}
-      />
+      <View style={[styles.container, styles.horizontal]}>
+        <Text style={styles.header}>Credential State</Text>
+        <Text>{credentialStateForUser}</Text>
+        <Text style={styles.header}>Buttons</Text>
+        <Text>Continue Styles</Text>
+        <AppleButton
+          style={styles.appleButton}
+          cornerRadius={5}
+          buttonStyle={AppleButton.Style.WHITE}
+          buttonType={AppleButton.Type.CONTINUE}
+          onPress={() => onAppleButtonPress(updateCredentialStateForUser)}
+        />
+      </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  appleButton: {
+    width: 200,
+    height: 60,
+    margin: 10,
+  },
+  header: {
+    margin: 10,
+    marginTop: 30,
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'pink',
+  },
+  horizontal: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+  },
+});
 
 export default App;
