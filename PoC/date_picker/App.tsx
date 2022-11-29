@@ -2,23 +2,14 @@
  * @format
  */
 
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native';
-import RNDateTimePicker from '@react-native-community/datetimepicker';
+import {View, Text} from 'react-native';
+import React from 'react';
 
 const App = () => {
-  const [value, setValue] = useState<Date>(new Date());
-
   return (
-    <SafeAreaView>
-      <RNDateTimePicker
-        value={value}
-        mode="date"
-        display="spinner"
-        locale="ko"
-        onChange={(selectedDate: any) => setValue(selectedDate)}
-      />
-    </SafeAreaView>
+    <View>
+      <Text>App</Text>
+    </View>
   );
 };
 
