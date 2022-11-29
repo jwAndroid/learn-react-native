@@ -3,7 +3,7 @@
  */
 
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {memo} from 'react';
 
 const App = () => {
   return (
@@ -13,4 +13,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default memo(App);
