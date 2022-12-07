@@ -1264,10 +1264,10 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/eslint-plugin/-/eslint-plugin-1.3.0.tgz#9e558170c106bbafaa1ef502bd8e6d4651012bf9"
   integrity sha512-+zDZ20NUnSWghj7Ku5aFphMzuM9JulqCW+aPXT6IfIXFbb8tzYTTOSeRFOtuekJ99ibW2fUCSsjuKNlwDIbHFg==
 
-"@react-native-seoul/kakao-login@^5.2.5":
-  version "5.2.5"
-  resolved "https://registry.yarnpkg.com/@react-native-seoul/kakao-login/-/kakao-login-5.2.5.tgz#1508a76a701e854fafa4159bb8f315f30529e1a2"
-  integrity sha512-tqVIc7/bWl/tmYE0mK80vOmxrIVqyxdgyeaWQQETZuvxlARQnYuuhgwd+dmfXE149nFBMEPg8WQX1s55c43IlQ==
+"@react-native-seoul/kakao-login@^5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@react-native-seoul/kakao-login/-/kakao-login-5.2.6.tgz#2a508e78d5370b34256f4281792a32c2b9ffcabf"
+  integrity sha512-93pkAScF8uVnAwwFkOV5m0xCbkNFGc5ey99AUy9n191YZL5ywguEV0ZBcgij+1cPkM0e7xVcXGfUG7/GmXcn0A==
   dependencies:
     dooboolab-welcome "^1.3.2"
 
