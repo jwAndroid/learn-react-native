@@ -34,7 +34,7 @@ const App = () => {
   return (
     <View style={{flex: 1}}>
       <IMP.Certification
-        userCode="imp10391932" // 가맹점 식별코드
+        userCode="imp10391932" // 가맹점 테스트 식별코드
         data={data2}
         callback={callback}
         loading={<Loading />}
