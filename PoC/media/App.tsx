@@ -15,6 +15,7 @@ import RNFS from 'react-native-fs';
 const App = () => {
   const [uri, setUri] = useState('');
   const [uri2, setUri2] = useState('');
+  const [fileURI, setFileURI] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -42,29 +43,48 @@ const App = () => {
     }
   }, []);
 
-  const phPathToFilePath = async (uri: string) => {
-    let fileURI = encodeURI(uri);
+  // const phPathToFilePath = async (uri: string) => {
+  //   // let fileURI = encodeURI(uri);
 
-    if (uri.startsWith('ph://')) {
-      const copyPath = `${
-        RNFS.DocumentDirectoryPath
-      }/${new Date().toISOString()}.png`.replace(/:/g, '-');
+  //   if (uri.startsWith('ph://')) {
+  //     const copyPath = `${
+  //       RNFS.DocumentDirectoryPath
+  //     }/${new Date().toISOString()}.png`.replace(/:/g, '-');
 
-      fileURI = await RNFS.copyAssetsFileIOS(uri, copyPath, 360, 360);
-    }
+  //     const fileURI = await RNFS.copyAssetsFileIOS(uri, copyPath, 360, 360);
 
-    return fileURI;
-  };
+  //     setFileURI(fileURI);
+  //   }
+
+  //   return fileURI;
+  // };
+
+  const convertFile = useCallback(
+    async (uri: string) => {
+      if (uri.startsWith('ph://')) {
+        const copyPath = `${
+          RNFS.DocumentDirectoryPath
+        }/${new Date().toISOString()}.png`.replace(/:/g, '-');
+
+        const fileURI = await RNFS.copyAssetsFileIOS(uri, copyPath, 360, 360);
+
+        setFileURI(fileURI);
+      }
+
+      return fileURI;
+    },
+    [fileURI],
+  );
 
   const onConvert = useCallback(async () => {
     if (uri !== '' && Platform.OS === 'ios') {
-      const result2 = await phPathToFilePath(uri);
+      const result = await convertFile(uri);
 
-      console.log('reulst2', result2);
+      console.log('reulst2', result);
 
-      setUri2(result2);
+      setUri2(result);
     }
-  }, [uri]);
+  }, [uri, convertFile]);
 
   const uploadImage = useCallback(() => {}, []);
 
