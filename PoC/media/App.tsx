@@ -61,6 +61,9 @@ const App = () => {
       const fileName = uri.replace('ph://', '');
 
       const result = await phPathToFilePath(uri);
+
+      console.log(fileName);
+      console.log(result);
     }
   }, [uri]);
 
