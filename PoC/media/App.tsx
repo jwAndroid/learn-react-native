@@ -14,6 +14,7 @@ import RNFS from 'react-native-fs';
 
 const App = () => {
   const [uri, setUri] = useState('');
+  const [uri2, setUri2] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -47,9 +48,8 @@ const App = () => {
     if (uri.startsWith('ph://')) {
       const copyPath = `${
         RNFS.DocumentDirectoryPath
-      }/${new Date().toISOString()}.jpg`.replace(/:/g, '-');
+      }/${new Date().toISOString()}.png`.replace(/:/g, '-');
 
-      // ph경로의 이미지를 file로 옮기는 작업
       fileURI = await RNFS.copyAssetsFileIOS(uri, copyPath, 360, 360);
     }
 
@@ -58,29 +58,38 @@ const App = () => {
 
   const onConvert = useCallback(async () => {
     if (uri !== '' && Platform.OS === 'ios') {
-      const fileName = uri.replace('ph://', '');
+      const result2 = await phPathToFilePath(uri);
 
-      const result = await phPathToFilePath(uri);
+      console.log('reulst2', result2);
 
-      console.log(fileName);
-      console.log(result);
+      setUri2(result2);
     }
   }, [uri]);
 
+  const uploadImage = useCallback(() => {}, []);
+
   return (
     <SafeAreaView>
-      <Text onPress={onGetPhotos} style={{fontSize: 30}}>
+      <Text onPress={onGetPhotos} style={{fontSize: 30, marginTop: 50}}>
         get Photos
       </Text>
 
-      <Text onPress={onConvert} style={{fontSize: 30}}>
+      <Text onPress={onConvert} style={{fontSize: 30, marginTop: 50}}>
         ios 파일 변환
       </Text>
 
-      <Image
-        source={{uri: 'ph://DDBEEB48-DED7-48F0-9283-394D9587EF05/L0/001'}}
-        style={{width: 200, height: 200}}
-      />
+      <Text>변환하고 이미지 렌더링</Text>
+
+      {uri2 !== '' ? (
+        <Image
+          source={{uri: uri2}}
+          style={{width: 200, height: 200, marginTop: 50}}
+        />
+      ) : null}
+
+      <Text onPress={uploadImage} style={{fontSize: 30, marginTop: 50}}>
+        upload image
+      </Text>
     </SafeAreaView>
   );
 };
