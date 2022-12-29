@@ -2,11 +2,18 @@
  */
 
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import {PermissionsAndroid, Platform, SafeAreaView, Text} from 'react-native';
+import {
+  Image,
+  PermissionsAndroid,
+  Platform,
+  SafeAreaView,
+  Text,
+} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+import RNFS from 'react-native-fs';
 
 const App = () => {
-  const [source, setSource] = useState('');
+  const [uri, setUri] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -26,19 +33,51 @@ const App = () => {
     })();
   }, []);
 
-  const onPress = useCallback(async () => {
-    const result = await CameraRoll.getPhotos({first: 1, assetType: 'Photos'});
+  const onGetPhotos = useCallback(async () => {
+    const result = await CameraRoll.getPhotos({first: 10, assetType: 'Photos'});
 
-    setSource(result.edges[0].node.image.uri);
-
-    console.log(JSON.stringify(result.edges[0].node.image.uri, null, 5));
+    if (result.edges[1].node.image.uri !== '') {
+      setUri(result.edges[1].node.image.uri);
+    }
   }, []);
+
+  const phPathToFilePath = async (uri: string) => {
+    let fileURI = encodeURI(uri);
+
+    if (uri.startsWith('ph://')) {
+      const copyPath = `${
+        RNFS.DocumentDirectoryPath
+      }/${new Date().toISOString()}.jpg`.replace(/:/g, '-');
+
+      // ph경로의 이미지를 file로 옮기는 작업
+      fileURI = await RNFS.copyAssetsFileIOS(uri, copyPath, 360, 360);
+    }
+
+    return fileURI;
+  };
+
+  const onConvert = useCallback(async () => {
+    if (uri !== '' && Platform.OS === 'ios') {
+      const fileName = uri.replace('ph://', '');
+
+      const result = await phPathToFilePath(uri);
+    }
+  }, [uri]);
 
   return (
     <SafeAreaView>
-      <Text onPress={onPress} style={{fontSize: 30}}>
+      <Text onPress={onGetPhotos} style={{fontSize: 30}}>
         get Photos
       </Text>
+
+      <Text onPress={onConvert} style={{fontSize: 30}}>
+        ios 파일 변환
+      </Text>
+
+      <Image
+        source={{uri: 'ph://DDBEEB48-DED7-48F0-9283-394D9587EF05/L0/001'}}
+        style={{width: 200, height: 200}}
+      />
     </SafeAreaView>
   );
 };
