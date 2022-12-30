@@ -1,115 +1,64 @@
 /**
  */
 
-import React, {memo, useCallback, useEffect, useState} from 'react';
-import {
-  Image,
-  PermissionsAndroid,
-  Platform,
-  SafeAreaView,
-  Text,
-} from 'react-native';
+import React, {memo, useCallback, useState} from 'react';
+import {Image, Platform, SafeAreaView, Text, View} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
-import RNFS from 'react-native-fs';
+
+import {converter} from './src/convert';
+import usePermission from './src/usePermission';
+import {applyToken} from './api';
+import {uploadImage} from './src/uploadImage';
 
 const App = () => {
   const [uri, setUri] = useState('');
-  const [uri2, setUri2] = useState('');
-  const [fileURI, setFileURI] = useState('');
 
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS === 'android') {
-        const permission =
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+  usePermission();
 
-        const hasPermission = await PermissionsAndroid.check(permission);
-        if (hasPermission) {
-          return true;
-        }
+  const onToken = useCallback(() => {
+    console.log('applyToken!!');
 
-        const status = await PermissionsAndroid.request(permission);
-
-        return status === 'granted';
-      }
-    })();
+    applyToken('');
   }, []);
 
-  const onGetPhotos = useCallback(async () => {
+  const onPhotos = useCallback(async () => {
     const result = await CameraRoll.getPhotos({first: 10, assetType: 'Photos'});
 
-    if (result.edges[1].node.image.uri !== '') {
+    if (result.edges.length > 0) {
       setUri(result.edges[1].node.image.uri);
-    }
-  }, []);
 
-  // const phPathToFilePath = async (uri: string) => {
-  //   // let fileURI = encodeURI(uri);
+      if (Platform.OS === 'ios') {
+        const convertUri = await converter(result.edges[2].node.image.uri);
 
-  //   if (uri.startsWith('ph://')) {
-  //     const copyPath = `${
-  //       RNFS.DocumentDirectoryPath
-  //     }/${new Date().toISOString()}.png`.replace(/:/g, '-');
-
-  //     const fileURI = await RNFS.copyAssetsFileIOS(uri, copyPath, 360, 360);
-
-  //     setFileURI(fileURI);
-  //   }
-
-  //   return fileURI;
-  // };
-
-  const convertFile = useCallback(
-    async (uri: string) => {
-      if (uri.startsWith('ph://')) {
-        const copyPath = `${
-          RNFS.DocumentDirectoryPath
-        }/${new Date().toISOString()}.png`.replace(/:/g, '-');
-
-        const fileURI = await RNFS.copyAssetsFileIOS(uri, copyPath, 360, 360);
-
-        setFileURI(fileURI);
+        uploadImage(convertUri);
       }
 
-      return fileURI;
-    },
-    [fileURI],
-  );
+      if (Platform.OS === 'android') {
+        const uri = result.edges[2].node.image.uri;
 
-  const onConvert = useCallback(async () => {
-    if (uri !== '' && Platform.OS === 'ios') {
-      const result = await convertFile(uri);
-
-      console.log('reulst2', result);
-
-      setUri2(result);
+        uploadImage(uri);
+      }
     }
-  }, [uri, convertFile]);
-
-  const uploadImage = useCallback(() => {}, []);
+  }, []);
 
   return (
     <SafeAreaView>
-      <Text onPress={onGetPhotos} style={{fontSize: 30, marginTop: 50}}>
-        get Photos
-      </Text>
+      <View style={{marginTop: 50, alignItems: 'center'}}>
+        <Text onPress={onToken} style={{fontSize: 30}}>
+          토큰 넣기
+        </Text>
 
-      <Text onPress={onConvert} style={{fontSize: 30, marginTop: 50}}>
-        ios 파일 변환
-      </Text>
+        <Text onPress={onPhotos} style={{fontSize: 30, marginTop: 50}}>
+          이미지 가져오고 업로드 하기
+        </Text>
 
-      <Text>변환하고 이미지 렌더링</Text>
-
-      {uri2 !== '' ? (
-        <Image
-          source={{uri: uri2}}
-          style={{width: 200, height: 200, marginTop: 50}}
-        />
-      ) : null}
-
-      <Text onPress={uploadImage} style={{fontSize: 30, marginTop: 50}}>
-        upload image
-      </Text>
+        {uri !== '' ? (
+          <Image
+            source={{uri}}
+            style={{width: 200, height: 200, marginTop: 50}}
+          />
+        ) : null}
+      </View>
     </SafeAreaView>
   );
 };
