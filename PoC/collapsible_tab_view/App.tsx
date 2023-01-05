@@ -3,52 +3,53 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
+import {CollapsibleTabBar} from 'react-native-collapsible-component-with-tab-view';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+const Tab1Component = () => {
+  return <View style={{flex: 1, backgroundColor: 'gray'}} />;
+};
+
+const Tab2Component = () => {
+  return <View style={{flex: 1, backgroundColor: 'orange'}} />;
+};
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+    <SafeAreaView>
+      <CollapsibleTabBar
+        collasibleComponent={
+          <View
+            style={{
+              height: 300,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'rgba(255, 255, 200, 1)',
+            }}>
+            <Text>Collapse Section</Text>
+          </View>
+        }
+        tabBarItemList={[
+          {
+            titleComponent: (
+              <View style={{padding: 20}}>
+                <Text>tab1</Text>
+              </View>
+            ),
+            component: <Tab1Component />,
+          },
+          {
+            titleComponent: (
+              <View style={{padding: 20}}>
+                <Text>tab2</Text>
+              </View>
+            ),
+            component: <Tab2Component />,
+          },
+        ]}
       />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
