@@ -3,11 +3,10 @@ import IMP from 'iamport-react-native';
 
 import {key} from '../key';
 
-const Payment = () => {
-  function callback(response: any) {
-    console.log(response);
-  }
-
+interface IPayment {
+  callback: any;
+}
+const Payment = ({callback}: IPayment) => {
   const data = {
     pg: 'danal_tpay',
     pay_method: 'card',
@@ -23,13 +22,7 @@ const Payment = () => {
     escrow: false,
   };
 
-  return (
-    <IMP.Payment
-      userCode={key} // 가맹점 테스트 식별코드
-      data={data} // 결제 데이터
-      callback={callback} // 결제 종료 후 콜백
-    />
-  );
+  return <IMP.Payment userCode={key} data={data} callback={callback} />;
 };
 
 export default Payment;
