@@ -5,12 +5,12 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
-import CollapsibleTabViewTestScreen from './src/CollapsibleTabViewTestScreen';
+import CollapsibleTabViewScreen from './src/CollapsibleTabViewScreen';
 
 const App = () => {
   return (
     <NavigationContainer>
-      <CollapsibleTabViewTestScreen />
+      <CollapsibleTabViewScreen />
     </NavigationContainer>
   );
 };
