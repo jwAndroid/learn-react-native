@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef, useEffect} from 'react';
+import React, {useState, useCallback, useRef, useEffect, memo} from 'react';
 import {View, StyleSheet, Animated, TouchableOpacity, Text} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 
@@ -11,6 +11,35 @@ type IRoute = {
   key: string;
   title: string;
 };
+
+const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+  },
+  headerContainer: {
+    position: 'absolute',
+    width: '100%',
+  },
+  collapsibleTabBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: TABBAR_HEIGHT,
+    backgroundColor: '#FFFFFF',
+    zIndex: 1,
+  },
+  collapsibleTabBarButton: {
+    flex: 1,
+  },
+  collapsibleTabBarLabelContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  collapsibleTabBarLabelText: {
+    fontSize: 15,
+    color: '#587058',
+  },
+});
 
 function CollapsibleTabViewTestScreen() {
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -25,7 +54,7 @@ function CollapsibleTabViewTestScreen() {
   const tabIndexRef = useRef(0);
   const isListGlidingRef = useRef(false);
   const listArrRef = useRef([]);
-  const listOffsetRef = useRef<React.MutableRefObject<{}>>({current: 0});
+  const listOffsetRef = useRef();
   const scrollY = useRef<Animated.Value>(new Animated.Value(0)).current;
 
   const headerTranslateY = scrollY.interpolate({
@@ -67,8 +96,6 @@ function CollapsibleTabViewTestScreen() {
       tabIndexRef.current = idx;
     }
   }, []);
-
-  console.log(scrollY);
 
   const syncScrollOffset = useCallback(() => {
     const focusedTabKey = tabRoutes[tabIndexRef.current].key;
@@ -204,33 +231,4 @@ function CollapsibleTabViewTestScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  rootContainer: {
-    flex: 1,
-  },
-  headerContainer: {
-    position: 'absolute',
-    width: '100%',
-  },
-  collapsibleTabBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: TABBAR_HEIGHT,
-    backgroundColor: '#FFFFFF',
-    zIndex: 1,
-  },
-  collapsibleTabBarButton: {
-    flex: 1,
-  },
-  collapsibleTabBarLabelContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-  },
-  collapsibleTabBarLabelText: {
-    fontSize: 15,
-    color: '#587058',
-  },
-});
-
-export default CollapsibleTabViewTestScreen;
+export default memo(CollapsibleTabViewTestScreen);
