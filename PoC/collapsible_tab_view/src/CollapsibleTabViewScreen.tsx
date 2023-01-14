@@ -15,7 +15,10 @@ type IRoute = {
 function CollapsibleTabViewTestScreen() {
   const [headerHeight, setHeaderHeight] = useState(0);
 
-  const [tabRoutes, setTabRoutes] = useState<IRoute[]>([]);
+  const [tabRoutes] = useState<IRoute[]>([
+    {key: 'screen1', title: 'screen1'},
+    {key: 'screen2', title: 'screen2'},
+  ]);
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -36,15 +39,6 @@ function CollapsibleTabViewTestScreen() {
     outputRange: [headerHeight, 0],
     extrapolateRight: 'clamp',
   });
-
-  useEffect(() => {
-    const routes = [
-      {key: 'screen1', title: 'screen1'},
-      {key: 'screen2', title: 'screen2'},
-    ];
-
-    setTabRoutes(routes);
-  }, []);
 
   useEffect(() => {
     const subscribe = scrollY.addListener(() => {});
@@ -73,6 +67,8 @@ function CollapsibleTabViewTestScreen() {
       tabIndexRef.current = idx;
     }
   }, []);
+
+  console.log(scrollY);
 
   const syncScrollOffset = useCallback(() => {
     const focusedTabKey = tabRoutes[tabIndexRef.current].key;

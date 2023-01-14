@@ -26,7 +26,7 @@ function CollapsibleFlatList(props) {
     <View style={styles.rootContainer}>
       <Animated.FlatList
         ref={ref => {
-          let foundIndex = listArrRef.current.findIndex(
+          const foundIndex = listArrRef.current.findIndex(
             e => e.key === tabRoute.key,
           );
 
@@ -62,6 +62,7 @@ function CollapsibleFlatList(props) {
         onMomentumScrollEnd={props.onMomentumScrollEnd}
         onScrollEndDrag={props.onScrollEndDrag}
         bounces={false}
+        scrollToOverflowEnabled={false}
       />
     </View>
   );

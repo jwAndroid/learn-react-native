@@ -4,14 +4,28 @@
 
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
+import {ThemeProvider} from '@emotion/react';
 
-import CollapsibleTabViewScreen from './src/CollapsibleTabViewScreen';
+import {theme} from './theme';
+import CollapsibleTabBar from './src/CollapsibleTabBar';
+import {Text, View} from 'react-native';
+import CollapsibleTabViewTestScreen from './src/CollapsibleTabViewScreen';
+
+function A() {
+  return <Text>sd</Text>;
+}
+
+function B() {
+  return <Text>sd</Text>;
+}
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <CollapsibleTabViewScreen />
-    </NavigationContainer>
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        <CollapsibleTabViewTestScreen />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 };
 
