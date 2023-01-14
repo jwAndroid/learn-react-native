@@ -16,7 +16,8 @@
           {
             "endOfLine": "auto"
           }
-        ]
+        ],
+        "no-spaced-func": "off"
       }
     }
   ]
